@@ -1,3 +1,32 @@
-              - name: sfdx-orgdev-build-deploy
-                uses: tiagonnascimento/sfdx-orgdev-build-deploy@v2.1.1
-            
+# Unique name for this workflow
+name: On push QA - Deploy to QA
+
+# Definition when the workflow should run
+on:
+    push:
+        branches:
+            - QA
+
+# Jobs to be executed
+jobs:
+    build-deploy:
+        runs-on: ubuntu-latest
+        steps:
+
+            # Checkout the code in the pull request
+            - name: 'Checkout source code'
+              uses: actions/checkout@v2
+
+            - name: 'Build and Deploy'
+              uses: tiagonnascimento/sfdx-orgdev-build-deploy@v2
+              with:
+                type: 'sandbox'
+                certificate_path: certs/Github_Actions_Certificate
+                client_id: ${{ secrets.CONSUMER_KEY }}
+                username: ${{ secrets.USERNAME }}
+                checkonly: false
+                deploy_wait_time: '10'
+                manifest_path: manifest/package.xml
+                destructive_path: 
+                data_factory: 
+                default_source_path: force-app/main/default
