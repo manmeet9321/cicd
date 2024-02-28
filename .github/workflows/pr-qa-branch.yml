@@ -90,13 +90,23 @@ jobs:
                   echo "APEX_TESTS=$TESTS" >> $GITHUB_ENV
                   
             # Now Install Salesforce CLI
-            - name: 'Install Salesforce CLI'
-              run: |
+            # - name: 'Install Salesforce CLI'
+            # run: |
+             #     wget https://developer.salesforce.com/media/salesforce-cli/sfdx/channels/stable/sfdx-linux-x64.tar.xz
+             #     mkdir ~/sfdx
+             #     tar xJf sfdx-linux-x64.tar.xz -C ~/sfdx --strip-components 1
+              #    echo "$HOME/sfdx/bin" >> $GITHUB_PATH
+              #    ~/sfdx/bin/sfdx version
+                  
+              - name: Install Salesforce CLI
+                run: |
                   wget https://developer.salesforce.com/media/salesforce-cli/sfdx/channels/stable/sfdx-linux-x64.tar.xz
-                  mkdir ~/sfdx
-                  tar xJf sfdx-linux-x64.tar.xz -C ~/sfdx --strip-components 1
-                  echo "$HOME/sfdx/bin" >> $GITHUB_PATH
-                  ~/sfdx/bin/sfdx version
+                  sudo mkdir ~/sfdx-cli
+                  sudo tar xJf sfdx-linux-x64.tar.xz -C ~/sfdx-cli --strip-components 1
+                  export PATH=$PATH:~/sfdx-cli/bin
+                  echo "~/sfdx-cli/bin" >> $GITHUB_PATH
+                  sudo chmod -R 777 ~/sfdx-cli
+                  sfdx --version
 
             # Then we install the SFDX-Git-Delta plugin - https://github.com/scolladon/sfdx-git-delta
             # This is an awesome plugin that allows us to extract a package.xml with the metadata
