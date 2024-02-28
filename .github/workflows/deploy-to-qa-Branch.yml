@@ -1,5 +1,5 @@
 # Unique name for this workflow
-name: On push QA - Deploy to QA
+name: Deploy to QA Branch
 
 # Definition when the workflow should run
 on:
